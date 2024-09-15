@@ -2,6 +2,7 @@ package com.weather1.weather1.repositories;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Slf4j
 @Getter
 @Setter
 public class CityInFileRepository {
@@ -53,11 +54,18 @@ public class CityInFileRepository {
 
 
     public String isExistCityWithErrorName(String inputCityName) {
+        long timeMillis = System.currentTimeMillis();
 
         for (String str : strs) {
             String cityName = getCityName(str);
-            if (inputCityName.equals(cityName)) return inputCityName;
-            else if (isOneError(inputCityName, cityName)) return cityName;
+            if (inputCityName.equals(cityName)) {
+                log.info("Time find city in Map: {} millis", System.currentTimeMillis() - timeMillis);
+                return inputCityName;
+            }
+            else if (isOneError(inputCityName, cityName)) {
+                log.info("Time find city in Map: {} millis", System.currentTimeMillis() - timeMillis);
+                return cityName;
+            }
         }
         return null;
     }

@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CityRepository extends JpaRepository<City, Long> {
+    //Добавить сохранение всей коллекции //***********************************************
     List<City> findByName(String name);
+
 
 }
