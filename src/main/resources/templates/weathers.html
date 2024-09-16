@@ -14,7 +14,14 @@
 <body>
 
 <form th:action="@{/weather}" method="post">
+    <span>Введите город</span>
     <input type="text" th:text="${city}" name="city"/>
+    <span>Поиск городов в </span>
+    <select id="optionSearch" name="optionSearch">
+        <option value="1">Файле</option>
+        <option value="2">БД</option>
+        <option value="3">БД с хэш функцией</option>
+    </select>
     <input type="submit"/>
 </form>
 <h3 th:if="${reportCity}" th:text="${reportCity}"/>
@@ -23,7 +30,7 @@
 <!--<p th:text=${account.username}></p>-->
 
 
-<table>
+<table th:if="${weathers}">
     <thead>
     <tr>
         <th> City </th>

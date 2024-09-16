@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+/**
+ * A class for storing information about cities
+ */
 @Entity
 @Table(name = "cites")
 @Data
