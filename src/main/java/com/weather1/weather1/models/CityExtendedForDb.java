@@ -7,12 +7,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * A class for storing cities with additional hash values to speed up the search with errors
+ */
 @Entity
 @Table(name = "citesExtended")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CityExtendedForDb {
+    public static final int hashDifference = 26;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -23,12 +28,6 @@ public class CityExtendedForDb {
     private char secondSymbol;
     private char lastSymbol;
     private char preLastSymbol;
-
-    public static void main(String[] args) {
-        City city = new City(1L, "Toki");
-        CityExtendedForDb cityExtendedForDb = new CityExtendedForDb(city);
-        System.out.println();
-    }
 
     public CityExtendedForDb(City city){
         id = city.getId();
@@ -41,9 +40,21 @@ public class CityExtendedForDb {
         preLastSymbol = name.charAt(name.length() - 2);
     }
 
+    /**
+     *A method for checking that the hashes of 2 city names differ by no more than one error. There are "false positive" positives. There are no "false negatives".
+     * @param hash1 - argument 1
+     * @param hash2 - argument 2
+     * @return - is 2 city names differ by no more than one error. There are "false positive" positives. There are no "false negatives".
+     */
     public static boolean isEqualsHashWithOneError (int hash1, int hash2){
         return Math.abs(hash1 - hash2) <= 26;
     }
+
+    /**
+     * A method for getting a hash value by name
+     * @param name - argument
+     * @return - hash
+     */
     public static int getHashCharacters(String name) {
         int result = 0;
         name.toLowerCase();
