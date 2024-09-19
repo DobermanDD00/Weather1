@@ -5,6 +5,7 @@ import com.weather1.weather1.models.CityExtendedForDb;
 import com.weather1.weather1.repositories.CityExtendedRepository;
 import com.weather1.weather1.repositories.CityInFileRepository1;
 import com.weather1.weather1.repositories.CityRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -65,7 +66,7 @@ public class CityService {
         List<City> cities = cityRepository.findByName(name);
         if (cities.size() == 0) {
             List<String> names = ErrorsService.generateAllWithOneError(name);
-            cities = names.stream().flatMap(p -> (cityRepository.findByName(p).stream())).collect(Collectors.toList());
+            cities = cityRepository.findAllByNameIsIn(names);
         }
         log.info("Time find city in Db with generation set: {} millis", System.currentTimeMillis() - timeMillis);
         return cities;
@@ -88,7 +89,7 @@ public class CityService {
             int hashEnd = CityExtendedForDb.getHashCharacters(name) + CityExtendedForDb.hashDifference;
             cityExtendedForDbs = cityExtendedRepository.findAllByNumberCharactersBetweenAndHashCharactersBetween(numberStart, numberEnd, hashStart, hashEnd);
             for (CityExtendedForDb cityExtendedForDb : cityExtendedForDbs)
-                if (ErrorsService.isOneError(name, cityExtendedForDb.getName()))
+                if (ErrorsService.isOneErrorOrLess(name, cityExtendedForDb.getName()))
                     cities.add(new City(cityExtendedForDb.getId(), cityExtendedForDb.getName()));
         }
 

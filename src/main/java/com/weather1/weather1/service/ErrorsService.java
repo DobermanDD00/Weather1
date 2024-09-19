@@ -50,12 +50,13 @@ public class ErrorsService {
     }
 
     /**
-     * The method for checking the difference of words by 1 error
+     * The method for checking the difference of words less than 1 error
      * @param name1 - first word
      * @param name2 - second word
      * @return - the difference is not more than 1 error
      */
-    public static boolean isOneError(String name1, String name2) {
+    public static boolean isOneErrorOrLess(String name1, String name2) {
+        if (name1.equals(name2)) return true;
         if (isMissingSymbol(name1, name2)) return true;
         if (isRedundantSymbol(name1, name2)) return true;
         if (isWrongSymbol(name1, name2)) return true;
@@ -71,8 +72,14 @@ public class ErrorsService {
      * @return - the difference is no more than one missing character
      */
     public static boolean isMissingSymbol(String name1, String name2) {
-        if (name1.length() != name2.length() - 1) return false;
+        if (name1.equals(name2)) return true;
+        if (Math.abs(name1.length() - name2.length()) != 1) return false;
         int error = 0;
+        if (name1.length() > name2.length()){
+            String name3 = name1;
+            name1 = name2;
+            name2 = name3;
+        }
         for (int i = 0; i < name1.length(); ) {
             if (name1.charAt(i) == name2.charAt(i + error)) {
                 i++;
@@ -93,7 +100,7 @@ public class ErrorsService {
      * @return - the difference is no more than one added character
      */
     public static boolean isRedundantSymbol(String name1, String name2) {
-        return isMissingSymbol(name2, name1);
+        return isMissingSymbol(name1, name2);
     }
 
     /**
@@ -103,6 +110,8 @@ public class ErrorsService {
      * @return - the difference is no more than one wrong character
      */
     public static boolean isWrongSymbol(String name1, String name2) {
+        if (name1.equals(name2)) return true;
+
         if (name1.length() != name2.length()) return false;
         int errors = 0;
         for (int i = 0; i < name1.length(); i++) {
@@ -120,6 +129,8 @@ public class ErrorsService {
      * @return - the difference is no more than 2 characters swapped
      */
     public static boolean isMisplacedSymbol(String name1, String name2) {
+        if (name1.equals(name2)) return true;
+
         if (name1.length() != name2.length()) return false;
         int[] indexesMisplaced = new int[2];
         int errors = 0;

@@ -5,8 +5,6 @@ import com.weather1.weather1.models.Weather.Weather;
 import com.weather1.weather1.service.CityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +32,7 @@ public class WeatherController {
      * @return main page
      */
     @GetMapping("/weather")
-    public String taskInfo() {
+    public String showWeather() {
         return "weathers";
     }
 
@@ -45,8 +43,9 @@ public class WeatherController {
      * @param model - argument model
      * @return - weather information in the selected city(s)
      */
+
     @PostMapping("/weather")
-    public String showWeather(@RequestParam String city, @RequestParam int optionSearch, Model model) {
+    public String showWeathersInCites(@RequestParam String city, @RequestParam int optionSearch, Model model) {
 
         List<City> cities = new ArrayList<>();
 
@@ -94,7 +93,7 @@ public class WeatherController {
      * @return "initializeDb1"
      */
     @GetMapping("/init-db-cites")
-    public String products1(Model model) {
+    public String initializeDbCites(Model model) {
         long timeMillis = System.currentTimeMillis();
         model.addAttribute("report", cityService.initDbCites());
         log.info("Time initialize Db: {} millis", System.currentTimeMillis() - timeMillis);
@@ -106,7 +105,7 @@ public class WeatherController {
      * @return "initializeDb2"
      */
     @GetMapping("/init-db-cites-extended")
-    public String products2(Model model) {
+    public String initializeDbCitesExtended(Model model) {
         long timeMillis = System.currentTimeMillis();
         model.addAttribute("report", cityService.initDbCityExtended());
         log.info("Time initialize Db: {} millis", System.currentTimeMillis() - timeMillis);
