@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Repository for working with cities from a file
@@ -29,7 +28,7 @@ public class CityInFileRepository1 {
         this(path);
     }
 
-    public CityInFileRepository1(Path path) {
+    private CityInFileRepository1(Path path) {
         try {
             Scanner in = new Scanner(path);
             String[] thead = in.nextLine().split("\"[,\"]*");
@@ -76,7 +75,7 @@ public class CityInFileRepository1 {
         List<City> result = isExistCity(inputCityName);
         if (result.size() == 0)
             for (City city : cities)
-                if (ErrorsService.isOneError(inputCityName, city.getName()))
+                if (ErrorsService.isOneErrorOrLess(inputCityName, city.getName()))
                     result.add(city);
 
         return result;
