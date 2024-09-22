@@ -42,8 +42,48 @@
         </div>
     </ul>
     </nav>
+<tr th:each="weather : ${weathers}" th:if="${weather}">
+    <p class="text-center">About your request</p>
 
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">City</th>
+            <td th:text="${weather.getLocation().getName()}"></td>
 
+        </tr>
+        <tr>
+            <th scope="row">Temperature</th>
+            <td th:text="${weather.getCurrent().getTemp_c()}"></td>
+
+        </tr>
+        <tr>
+            <th scope="row">Temperature feels like</th>
+
+            <td th:text="${weather.getCurrent().getFeelslike_c()}"></td>
+
+        </tr>
+        <tr>
+            <th scope="row">Wind speed</th>
+
+            <td th:text="${weather.getCurrent().getWind_kph()}"></td>
+
+        </tr>
+        <tr>
+            <th scope="row">Wind degree</th>
+
+            <td th:text="${weather.getCurrent().getWind_degree()}"></td>
+
+        </tr>
+        </tbody>
+    </table>
+</tr>
 
     <form th:action="@{/weather}" method="post">
         <span>Введите город</span>
