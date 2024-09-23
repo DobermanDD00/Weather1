@@ -20,30 +20,55 @@
 
 </head>
 <body style="background-color: #c4beb5">
-<nav class="navbar" style="background-color: #327496; color: #c4beb5" data-bs-theme="light">
+<form th:action="@{/weather}" method="post"><nav class="navbar" style="background-color: #327496; color: #c4beb5" data-bs-theme="light">
     <ul class="navbar-nav me-auto mb-2">
         <div class="container-fluid">
             <a class="navbar-brand me-auto mb-3" style="color: #495c69;"><i class="fa-solid fa-cloud"></i></a>
             <a class="navbar-brand me-auto mb-0" style="color: #c4beb5">Weather</a>
             <form class="d-flex" role="search">
-                <input class="form-control me-2 " type="search" placeholder="City" aria-label="Search">
+                <input class="form-control me-2 " placeholder="City" aria-label="Search" type="text" th:text="${city}" name="city">
+<!--                <input type="text" th:text="${city}" name="city"/>-->
+                <select id="optionSearch" name="optionSearch">
+                    <option value="1">Файле</option>
+                    <option value="2">БД</option>
+                    <option value="3">БД с хэш функцией</option>
+                </select>
+                <button class="btn btn-secondary"style="border-color: #c4beb5;background-color: #495c69; color: #c4beb5 " type="submit">Search</button>
+
 <!--                <button class="btn btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border-color: wheat;background-color: darkslategrey; color: wheat ">Search</button>-->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"style="border-color: #c4beb5;background-color: #495c69; color: #c4beb5 ">
-                        Search
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">File</a></li>
-                        <li><a class="dropdown-item" href="#">DB</a></li>
-                        <li><a class="dropdown-item" href="#">DB with hash</a></li>
-                    </ul>
-                </div>
+<!--                <div class="dropdown">-->
+<!--                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"style="border-color: #c4beb5;background-color: #495c69; color: #c4beb5 ">-->
+<!--                        Search-->
+<!--                    </button>-->
+<!--                    <select id="optionSearch" name="optionSearch">-->
+<!--                    <ul class="dropdown-menu">-->
+
+<!--                            <option value="1"><li><a class="dropdown-item" href="#">File</a></li></option>-->
+<!--                            <option value="2"><li><a class="dropdown-item" href="#">DB</a></li></option>-->
+<!--                            <option value="3"><li><a class="dropdown-item" href="#">DB with hash</a></li></option>-->
+
+<!--                    </ul>-->
+<!--                    </select>-->
+<!--                </div>-->
             </form>
         </div>
     </ul>
     </nav>
+</form>
+
+<!--    <form th:action="@{/weather}" method="post">-->
+<!--        <span>Введите город</span>-->
+<!--        <input type="text" th:text="${city}" name="city"/>-->
+<!--        <span>Поиск городов в </span>-->
+<!--        <select id="optionSearch" name="optionSearch">-->
+<!--            <option value="1">Файле</option>-->
+<!--            <option value="2">БД</option>-->
+<!--            <option value="3">БД с хэш функцией</option>-->
+<!--        </select>-->
+<!--        <input type="submit"/>-->
+<!--    </form>-->
+    <h3 th:if="${reportCity}" th:text="${reportCity}"/>
 <tr th:each="weather : ${weathers}" th:if="${weather}">
-    <p class="text-center">About your request</p>
 
     <table class="table table-sm">
         <thead>
@@ -73,7 +98,6 @@
             <th scope="row">Wind speed</th>
 
             <td th:text="${weather.getCurrent().getWind_kph()}"></td>
-
         </tr>
         <tr>
             <th scope="row">Wind degree</th>
@@ -84,47 +108,33 @@
         </tbody>
     </table>
 </tr>
-
-    <form th:action="@{/weather}" method="post">
-        <span>Введите город</span>
-        <input type="text" th:text="${city}" name="city"/>
-        <span>Поиск городов в </span>
-        <select id="optionSearch" name="optionSearch">
-            <option value="1">Файле</option>
-            <option value="2">БД</option>
-            <option value="3">БД с хэш функцией</option>
-        </select>
-        <input type="submit"/>
-    </form>
-    <h3 th:if="${reportCity}" th:text="${reportCity}"/>
-
     <!--<p th:text="#{reportCity}"></p>-->
     <!--<p th:text=${account.username}></p>-->
 
 
-    <table th:if="${weathers}">
-        <thead>
-        <tr>
-            <th> City </th>
-            <th> Temperature </th>
-            <th> Temperature feels like </th>
-            <th> Wind </th>
-            <th> Wind degree </th>
-        </tr>
-        </thead>
-        <tbody>
-        <!--    <tr th:if="${weathers}">-->
-        <!--        <td colspan="5"> No city </td>-->
-        <!--    </tr>-->
-        <tr th:each="weather : ${weathers}" th:if="${weather}">
-            <td th:text="${weather.getLocation().getName()}"></td>
-            <td th:text="${weather.getCurrent().getTemp_c()}"></td>
-            <td th:text="${weather.getCurrent().getFeelslike_c()}"></td>
-            <td th:text="${weather.getCurrent().getWind_kph()}"></td>
-            <td th:text="${weather.getCurrent().getWind_degree()}"></td>
-        </tr>
-        </tbody>
-    </table>
+<!--    <table th:if="${weathers}">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th> City </th>-->
+<!--            <th> Temperature </th>-->
+<!--            <th> Temperature feels like </th>-->
+<!--            <th> Wind </th>-->
+<!--            <th> Wind degree </th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        &lt;!&ndash;    <tr th:if="${weathers}">&ndash;&gt;-->
+<!--        &lt;!&ndash;        <td colspan="5"> No city </td>&ndash;&gt;-->
+<!--        &lt;!&ndash;    </tr>&ndash;&gt;-->
+<!--        <tr th:each="weather : ${weathers}" th:if="${weather}">-->
+<!--            <td th:text="${weather.getLocation().getName()}"></td>-->
+<!--            <td th:text="${weather.getCurrent().getTemp_c()}"></td>-->
+<!--            <td th:text="${weather.getCurrent().getFeelslike_c()}"></td>-->
+<!--            <td th:text="${weather.getCurrent().getWind_kph()}"></td>-->
+<!--            <td th:text="${weather.getCurrent().getWind_degree()}"></td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
 
     </body>
 
